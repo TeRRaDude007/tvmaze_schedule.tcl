@@ -1,16 +1,26 @@
+package require http
+package require json
+
 bind pub - !tv pub:announce
 
 proc pub:announce {nick host handle chan arg} {
-    set date [clock format [clock seconds] -format "%Y-%m-%d"]
-    set url "http://api.tvmaze.com/schedule?country=US&date=$date"
+    set now [clock seconds]
+    set date [clock format $now -format "%Y-%m-%d"]
+    set valid_countries { "US" "NL" "GB" }
+    set countryCode [lindex $arg 0]
+    if {[lsearch -exact $valid_countries $countryCode] == -1} {
+        set countryCode "US"
+    }
+    set time [clock format $now -format "%H:%M"]
+    set url "http://api.tvmaze.com/schedule?country=$countryCode&start_time=$time"
     set response [http::geturl $url]
     set data [http::data $response]
     set shows [json::json2dict $data]
     set count 0
     set skip_words { "Episode" "0 and 2."}
-    putquick "PRIVMSG $handle :Here is the TV schedule for today:"
+    putquick "PRIVMSG $nick :  Here is the TV schedule for today:"
     foreach show $shows {
-        if {$count == 50} {
+        if {$count == 10} {
             after 2000
         }
         set show_info [dict get $show "show"]
@@ -25,7 +35,7 @@ proc pub:announce {nick host handle chan arg} {
         set number [dict get $show "number"]
         set time [dict get $show "airtime"]
         if {[lsearch -exact $skip_words $name] == -1} {
-            putquick "PRIVMSG $handle :$name (S$season E$number) airs at $time on $network"
+            putquick "PRIVMSG $nick :  $name \(S$season E$number\) airs at $time on $network"
             incr count
         }
     }
