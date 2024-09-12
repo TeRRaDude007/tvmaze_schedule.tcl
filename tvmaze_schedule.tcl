@@ -12,33 +12,26 @@ proc pub:announce {nick host handle chan arg} {
     set data [http::data $response]
     set shows [json::json2dict $data]
     set count 0
-    set exclude {"Episode"}
+    set skip_words { "Episode" "Special" "Replay" }
     putquick "PRIVMSG $chan :  Here is the TV schedule for today:"
     foreach show $shows {
-
         if {$count == 10} {
-            after 5000
+            after 2000
         }
-
-        set name [dict get $show "name"]
-
-        # Skip show if name starts with any of the strings in the exclude list
-        set match 0
-        foreach string $exclude {
-            if {[regexp -nocase "^$string" $name]} {
-                set match 1
-                break
-            }
+        set show_info [dict get $show "show"]
+        set name [dict get $show_info "name"]
+        set network_info [dict get $show_info "network"]
+        if {$network_info eq ""} {
+            set network "Not Available"
+        } else {
+            set network [dict get $network_info "name"]
         }
-        if {$match} {
-            continue
-        }
-
         set season [dict get $show "season"]
         set number [dict get $show "number"]
         set time [dict get $show "airtime"]
-        putquick "PRIVMSG $chan :  $name \(\00307E$number\003)\(\00307S$season\003) airs at $time"
-
-        incr count
+        if {[lsearch -exact $skip_words $name] == -1} {
+            putquick "PRIVMSG $chan :  $name  on $network \(S$season E$number\) airs at $time"
+            incr count
+        }
     }
 }
