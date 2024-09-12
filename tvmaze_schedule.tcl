@@ -3,6 +3,7 @@
 # Version: v1.2.0
 # Last Updated: 2024-09-12
 # =====================================================
+#
 # Changelog:
 #
 # v1.2.0 - 2024-09-12
@@ -123,3 +124,6 @@ proc announce_schedule {nick chan arg day_offset} {
     # Final message when all shows have been processed
     putquick "$output_location : \00315End of TV schedule list for [expr {$day_offset == 0 ? "today" : "tomorrow"}] in country $countryCode. Checking for new shows again soon...\003"
 }
+# EOF
+# !!!+++ This Script Comes Without any Support +++!!!
+# ./Just enjoy it.
