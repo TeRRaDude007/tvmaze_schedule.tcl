@@ -1,4 +1,30 @@
-
+# =====================================================
+# TeRRaDuDE TV Schedule Announcement Script
+# Version: v2.0.0
+# Last Updated: 2024-09-13
+# =====================================================
+#
+# Changelog:
+# V2.0.0
+# - Trigger update(s)
+#   /!today [country_code] → Announces today’s schedule starting from the current hour.
+#   /!tomorrow [country_code] → Announces tomorrow’s schedule starting from the current hour.
+#   /!yesterday [country_code] → Announces yesterday’s schedule starting from the current hour.
+#
+# v1.2.0 - 2024-09-12
+# - Added !tomorrow trigger to fetch tomorrow's TV schedule.
+# - Automatically adjusted start hour based on the country's local time.
+# - Skipped episodes with season numbers formatted as years (e.g., S2024).
+#
+# v1.1.0 - 2024-09-06
+# - Added support for custom country codes (e.g., !today UK or !today NL).
+# - Limited announcements to a max of 10 per batch with a 2-second delay.
+# - Skipped shows with specific keywords in their titles (e.g., News, FOX).
+#
+# v1.0.0 - 2024-09-01
+# - Initial version with basic !today trigger.
+# - Announced the TV schedule for US only, with season/episode information.
+# =====================================================
 package require http
 package require json
 
