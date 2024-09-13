@@ -114,7 +114,10 @@ proc announce_schedule {nick chan arg day_offset} {
             if {[string length $number] == 1} {
                 set number "0$number"
             }
-
+            # Pad number if API is (s)Special set to E00
+            if {$number eq "null"} {
+                 set number "00"
+            }
             putquick "$output_location : \00304$name\003 \00314(S$season/E$number)\003 \00304airs at\003 \00314$time\003 \00304on\003 (\00314$network\003)"
             incr count
             incr announcement_count
