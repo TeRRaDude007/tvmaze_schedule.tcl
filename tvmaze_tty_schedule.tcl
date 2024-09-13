@@ -105,3 +105,6 @@ proc pub:announceYesterday {nick host handle chan arg} {
     set yesterday [clock format [expr {[clock seconds] - 86400}] -format %Y-%m-%d]
     pub:announceSchedule $nick $host $handle $chan $arg $yesterday
 }
+# EOF
+# !!!+++ This Script Comes Without any Support +++!!!
+# ./Just enjoy it.
