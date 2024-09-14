@@ -13,3 +13,6 @@ Summary of Future Tweaks:
     * Episode Alerts: Allow users to set alerts for their favorite shows.
     * Schedule by Date: Let users specify any date to get a schedule.
     * Show Poster/Images: Include the poster or image URL of shows in announcements.
+
+# tvmaze_auto_schedule.tcl
+TV every 1 hour announcement
